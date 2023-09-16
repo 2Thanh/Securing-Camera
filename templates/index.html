@@ -1,9 +1,66 @@
-<html>
-  <head>
-    <title>Streaming </title>
-  </head>
-  <body>
-    <h1>Streaming </h1>
-    <img src="{{ url_for('video_feed') }}">
-  </body>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js">
+	<link rel="stylesheet" href="static/css/style.css">
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<title>Interactive Bar</title>
+</head>
+
+<body>
+	<main class="parent">
+		<div class="content-left">
+			<!-- First Bar Container -->
+			<div class="bar-container">
+				<div class="bar" id="bar1"></div>
+				<div class="dragger" id="dragger1"></div>
+			</div>
+			<div class="valueDisplay" id="valueDisplay1">90</div>
+		
+			<!-- Second Bar Container -->
+			<div class="bar-container">
+				<div class="bar" id="bar2"></div>
+				<div class="dragger" id="dragger2"></div>
+			</div>
+			<div class="valueDisplay" id="valueDisplay2">90</div>
+
+			<div class="block-1">
+				<img class="video" srcset="{{ url_for('video_feed') }} 2x" alt="video" />
+			</div>
+		</div>
+		<div class="content-right">
+			<div class="container">
+				<button class="btn" id="sendButton">Send Variable</button>
+				<!-- Each button has a unique identifier (button-id) -->
+				<button class="update-button btn" data-button-id="Capture">Capture</button>
+				<button class="update-button btn" data-button-id="Start/Stop Recording">Start/Stop
+					Recording</button>
+				<button class="update-button btn" data-button-id="Face Detection">Face Detection</button>
+				<!-- <form class="row" method="post" action="{{ url_for('tasks') }}"> -->
+				<!-- <input type="submit" value="Stop/Start" name="stop" /> -->
+				<!-- <input class="btn" type="submit" value="Face Only" name="face" /> -->
+				<!-- <input class="btn" type="submit" value="Start/Stop recording" name="rec" /> -->
+				<!-- <input class="btn" type="submit" value="Start/Stop Recording" name="rec" /> -->
+				<!-- </form> -->
+			</div>
+		</div>
+	</main>
+</body>
+<script>
+	$(document).ready(function () {
+		$('.update-button').click(function () {
+			var buttonId = $(this).data('button-id'); // Get the unique button identifier
+
+			// Trigger a background POST request without changing the URL or reloading the page
+			$.post('/requests', { button_id: buttonId }, function (data) {
+				// Update the displayed variable value without reloading the page
+				// $('#current-value').text(data.message);
+			});
+		});
+	});
+</script>
+<script src="static/js/main.js"></script>
 </html>
